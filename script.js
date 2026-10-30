@@ -1,243 +1,473 @@
-/* Reset */
+const goalWeight = 75;
+const startingWeight = 89;
+const locations = [
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+"🏠 Home Burrow",
+"🌱 Starter Meadow",
+"🌷 Wildflower Path",
+"🍓 Berry Fields",
+"🌳 Whispering Woods",
+"☕ Coffee Village",
+"🌈 Rainbow Gardens",
+"👑 Wellness Kingdom"
+
+];
+let xp = Number(localStorage.getItem("xp")) || 0;
+let carrots = Number(localStorage.getItem("carrots")) || 0;
+let flowers = Number(localStorage.getItem("flowers")) || 0;
+let steps = Number(localStorage.getItem("steps")) || 0;
+let weight = Number(localStorage.getItem("weight")) || 89;
+let streak = Number(localStorage.getItem("streak")) || 0;
+let gardenLevel =
+Number(localStorage.getItem("gardenLevel")) || 1;
+
+const stepGoal = 7000;
+let stats = JSON.parse(
+localStorage.getItem("stats")
+) || {
+fitness:1,
+consistency:1,
+mood:1,
+energy:1,
+wellness:1
+};
+
+function saveAll(){
+
+    localStorage.setItem("xp", xp);
+    localStorage.setItem("carrots", carrots);
+    localStorage.setItem("flowers", flowers);
+    localStorage.setItem("steps", steps);
+    localStorage.setItem("weight", weight);
+    localStorage.setItem("streak", streak);
+    localStorage.setItem("gardenLevel", gardenLevel);
+
+    localStorage.setItem(
+        "stats",
+        JSON.stringify(stats)
+    );
+}
+function updateMap(){
+
+    const currentLevel =
+    Math.min(level(), locations.length);
+
+    for(let i = 1; i <= locations.length; i++){
+
+        const loc =
+        document.getElementById(`loc${i}`);
+
+        if(!loc) continue;
+
+        loc.classList.remove(
+            "active",
+            "unlocked"
+        );
+
+        if(i < currentLevel){
+            loc.classList.add("unlocked");
+        }
+
+        if(i === currentLevel){
+
+            loc.classList.add("active");
+
+            document.getElementById(
+                "currentZone"
+            ).innerText =
+            `Current Zone: ${locations[i-1]}`;
+        }
+    }
+}
+function updateBrayMood(){
+
+    let mood = "😊 Happy";
+
+    if(streak >= 7){
+        mood = "🥰 Proud";
+    }
+
+    if(steps >= 10000){
+        mood = "🎉 Excited";
+    }
+
+    if(streak === 0){
+        mood = "💜 Waiting For Adventure";
+    }
+
+    document.getElementById("brayMood").innerText = mood;
 }
 
-/* Body */
+function updateStepGoal(){
 
-body{
-    font-family:-apple-system,BlinkMacSystemFont,
-    "Segoe UI",Roboto,sans-serif;
+    const percentage =
+    Math.min((steps / stepGoal) * 100,100);
 
-    background:#f7f1eb;
-    color:#333;
-    padding:12px;
+    document.getElementById("stepGoal")
+    .innerText = stepGoal;
 
-    line-height:1.4;
+    document.getElementById("stepGoalBar")
+    .style.width = percentage + "%";
 }
 
-/* Main Container */
+function gardenProgress(){
 
-.container{
-    width:100%;
-    max-width:700px;
-    margin:auto;
+    gardenLevel =
+    Math.floor(carrots / 50) + 1;
+
+    document.getElementById("gardenLevel")
+    .innerText = gardenLevel;
+
+    localStorage.setItem(
+        "gardenLevel",
+        gardenLevel
+    );
 }
 
-/* Header */
+}function generateRoute(){
 
-header{
-    text-align:center;
-    margin-bottom:15px;
+const routes = [
+
+"🏢 Work Loop - 15 mins around work",
+
+"🚶 Explorer Loop - 20 mins around home",
+
+"🌳 Park Adventure - 30 mins",
+
+"☕ Coffee Quest - walk and grab a coffee",
+
+"📸 Photo Quest Walk",
+
+"🌇 Sunset Stroll",
+
+"🏡 Walk One Extra Block"
+
+];
+
+const picked =
+routes[
+Math.floor(
+Math.random()*routes.length
+)
+];
+
+document.getElementById(
+"routeText"
+).innerText = picked;
+
+}function dailyQuote(){
+
+const quotes = [
+
+"Small steps every day create big results.",
+
+"You don't need motivation, only momentum.",
+
+"5 minutes is better than 0 minutes.",
+
+"Every walk improves your future health.",
+
+"Bray believes in you.",
+
+"Progress beats perfection.",
+
+"The hardest step is out the door.",
+
+"You are building a healthier life."
+
+];
+
+const quote =
+quotes[
+Math.floor(
+Math.random() * quotes.length
+)
+];
+
+document.getElementById(
+"quoteText"
+).innerText = quote;
+
 }
 
-header h1{
-    color:#6d4c41;
-    font-size:2rem;
+}
+function generateMission(){
+
+const sleep =
+Number(document.getElementById("sleep").value);
+
+const energy =
+Number(document.getElementById("energy").value);
+
+const stress =
+Number(document.getElementById("stress").value);
+
+let score = sleep + energy - stress;
+
+let mission = "";
+
+if(score <= 2){
+mission =
+"💜 Recovery Quest: Walk 5-10 minutes.";
+}
+else if(score <= 5){
+mission =
+"🚶 Explorer Quest: Walk 15-20 minutes.";
+}
+else{
+mission =
+"🔥 Champion Quest: Walk 30-45 minutes.";
 }
 
-header p{
-    color:#777;
+document.getElementById("mission")
+.innerText = mission;
 }
 
-/* Cards */
+function notFeelingIt(){
 
-.card{
-    background:white;
-    border-radius:18px;
-    padding:16px;
-    margin-bottom:14px;
-
-    box-shadow:
-    0 2px 8px rgba(0,0,0,.05);
+document.getElementById("mission")
+.innerText =
+"💜 Just walk 5 minutes. Starting is winning today.";
 }
 
-/* Section Titles */
+ffunction saveSteps(){
 
-.card h2{
-    font-size:1.1rem;
-    margin-bottom:10px;
-    color:#5d4037;
-}
+    const value =
+    Number(document.getElementById("stepsInput").value);
 
-/* Inputs */
+    if(value <= 0) return;
 
-input,
-select{
-    width:100%;
+    const stepDifference =
+    value - previousSteps;
 
-    padding:14px;
-    margin-top:8px;
-    margin-bottom:10px;
+    if(stepDifference <= 0){
+        alert("No new steps added.");
+        return;
+    }
 
-    border:1px solid #ddd;
-    border-radius:12px;
+    steps = value;
 
-    font-size:16px;
-}
+    const earnedXP =
+    Math.floor(stepDifference / 100);
 
-/* Buttons */
+    xp += earnedXP;
 
-button{
-    width:100%;
-    border:none;
+    carrots += Math.floor(stepDifference / 500);
 
-    border-radius:14px;
+    flowers += Math.floor(stepDifference / 2000);
 
-    padding:14px;
+    stats.fitness += 1;
+    stats.consistency += 1;
+    stats.mood += 1;
+    stats.wellness += 1;
 
-    font-size:16px;
-    font-weight:600;
+    previousSteps = value;
 
-    cursor:pointer;
-
-    background:#66bb6a;
-    color:white;
-
-    margin-top:8px;
-}
-
-button:active{
-    transform:scale(.98);
-}
-
-.secondary{
-    background:#7e57c2;
-}
-
-/* Progress Bars */
-
-.progress-bar{
-    width:100%;
-    height:22px;
-
-    background:#ececec;
-
-    border-radius:30px;
-    overflow:hidden;
-
-    margin-top:8px;
-}
-
-.progress{
-    height:100%;
-    width:0%;
-
-    background:
-    linear-gradient(
-      90deg,
-      #66bb6a,
-      #81c784
+    localStorage.setItem(
+        "previousSteps",
+        previousSteps
     );
 
-    transition:.4s;
+    streak += 1;
+
+    saveAll();
+    render();
 }
 
-/* Mission Box */
+function saveWeight(){
 
-#mission{
-    margin-top:15px;
+const value =
+Number(
+document.getElementById(
+"weightInput"
+).value
+);
 
-    padding:12px;
+if(value <= 0) return;
 
-    background:#f4fce9;
+const oldWeight = weight;
 
-    border-radius:12px;
+weight = value;
 
-    font-weight:600;
-    color:#2e7d32;
+if(weight < oldWeight){
+
+xp += 100;
+carrots += 10;
+
+alert(
+"🎉 Weight loss achieved!\n+100 XP\n+10 Carrots"
+);
+
 }
 
-/* Badges */
+saveAll();
+render();
 
-#badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
 }
 
-.badge{
-    background:#ffd54f;
+function weekendQuest(){
 
-    padding:8px 12px;
+const quests = [
 
-    border-radius:999px;
+"☕ Walk and grab a coffee.",
+"🐕 Count three dogs.",
+"📸 Take a photo of something beautiful.",
+"🌳 Explore a street you've never walked.",
+"🎵 Walk for three songs.",
+"🌇 Find the best sunset view.",
+"🏡 Walk one extra block.",
+"🌸 Find five flowers."
+];
 
-    font-size:.85rem;
-    font-weight:600;
+const random =
+quests[Math.floor(Math.random()*quests.length)];
+
+document.getElementById(
+"weekendQuestText"
+).innerText = random;
+
 }
 
-/* Bray Message */
-
-#brayMessage{
-    font-size:1rem;
+function level(){
+return Math.floor(xp / 1000) + 1;
 }
 
-/* Stats */
+function render(){
 
-.card p{
-    margin-bottom:6px;
+document.getElementById("xp")
+.innerText = xp;
+
+document.getElementById("level")
+.innerText = level();
+
+document.getElementById("carrots")
+.innerText = carrots;
+
+document.getElementById("flowers")
+.innerText = flowers;
+
+document.getElementById("steps")
+.innerText = steps;
+
+document.getElementById("weight")
+.innerText = weight;
+
+document.getElementById("streak")
+.innerText = streak;
+
+document.getElementById("fitness")
+.innerText = stats.fitness;
+
+document.getElementById("consistency")
+.innerText = stats.consistency;
+
+document.getElementById("mood")
+.innerText = stats.mood;
+
+document.getElementById("energyStat")
+.innerText = stats.energy;
+
+document.getElementById("wellness")
+.innerText = stats.wellness;
+
+const xpPercent =
+(xp % 1000) / 10;
+
+document.getElementById("xpBar")
+.style.width = xpPercent + "%";
+
+const totalToLose =
+startingWeight - goalWeight;
+
+const lost =
+startingWeight - weight;
+
+let progress =
+(lost / totalToLose) * 100;
+
+if(progress < 0){
+progress = 0;
 }
 
-/* Mobile Friendly Tables */
+document.getElementById("weightBar")
+.style.width = progress + "%";
 
-img{
-    max-width:100%;
+gardenProgress();
+updateBrayMood();
+updateStepGoal();
+updateMap();
+
+renderBadges();
 }
 
-/* Tablets */
+function renderBadges(){
 
-@media (min-width:768px){
+let badges = [];
+if(weight <= 85)
+badges.push("🌟 4kg Lost");
 
-    body{
-        padding:20px;
-    }
+if(weight <= 80)
+badges.push("🏆 9kg Lost");
 
-    .container{
-        max-width:800px;
-    }
+if(gardenLevel >= 5)
+badges.push("🌷 Master Gardener");
 
-    .card{
-        padding:20px;
-    }
+if(streak >= 14)
+badges.push("💪 Consistency Hero");
+
+if(carrots >= 100)
+badges.push("🐰 Bray's Best Friend");
+if(steps >= 5000)
+badges.push("🏆 5K Steps");
+
+if(steps >= 10000)
+badges.push("👑 10K Steps");
+
+if(weight <= 88)
+badges.push("⚖️ First Kg Lost");
+
+if(weight <= 84)
+badges.push("🔥 5kg Lost");
+
+if(streak >= 7)
+badges.push("🔥 7 Day Streak");
+
+if(streak >= 30)
+badges.push("🚀 30 Day Streak");
+
+if(xp >= 2000)
+badges.push("⭐ Level Up Hero");
+
+if(carrots >= 50)
+badges.push("🥕 Bray's Helper");
+
+document.getElementById("badges")
+.innerHTML =
+badges.map(
+b => `<span class="badge">${b}</span>`
+).join("");
 }
 
-/* Large Screens */
+render();
+if ("serviceWorker" in navigator) {
 
-@media (min-width:1024px){
+    window.addEventListener("load", () => {
 
-    .container{
-        max-width:900px;
-    }
-}#map{
-display:flex;
-flex-direction:column;
-gap:8px;
-margin-top:10px;
-}
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(() => {
 
-.map-location{
-padding:12px;
-border-radius:12px;
-background:#eceff1;
-text-align:center;
-font-weight:bold;
-transition:0.3s;
-}
+                console.log(
+                    "Service Worker Registered"
+                );
 
-.map-location.active{
-background:#66bb6a;
-color:white;
-}
+            })
+            .catch(error => {
 
-.map-location.unlocked{
-background:#aed581;
-}
+                console.log(error);
 
-.path{
-text-align:center;
-font-size:20px;
+            });
+
+    });
+
 }
