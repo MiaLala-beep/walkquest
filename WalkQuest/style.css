@@ -1,0 +1,215 @@
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* Body */
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,
+    "Segoe UI",Roboto,sans-serif;
+
+    background:#f7f1eb;
+    color:#333;
+    padding:12px;
+
+    line-height:1.4;
+}
+
+/* Main Container */
+
+.container{
+    width:100%;
+    max-width:700px;
+    margin:auto;
+}
+
+/* Header */
+
+header{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+header h1{
+    color:#6d4c41;
+    font-size:2rem;
+}
+
+header p{
+    color:#777;
+}
+
+/* Cards */
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:14px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.05);
+}
+
+/* Section Titles */
+
+.card h2{
+    font-size:1.1rem;
+    margin-bottom:10px;
+    color:#5d4037;
+}
+
+/* Inputs */
+
+input,
+select{
+    width:100%;
+
+    padding:14px;
+    margin-top:8px;
+    margin-bottom:10px;
+
+    border:1px solid #ddd;
+    border-radius:12px;
+
+    font-size:16px;
+}
+
+/* Buttons */
+
+button{
+    width:100%;
+    border:none;
+
+    border-radius:14px;
+
+    padding:14px;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    background:#66bb6a;
+    color:white;
+
+    margin-top:8px;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+.secondary{
+    background:#7e57c2;
+}
+
+/* Progress Bars */
+
+.progress-bar{
+    width:100%;
+    height:22px;
+
+    background:#ececec;
+
+    border-radius:30px;
+    overflow:hidden;
+
+    margin-top:8px;
+}
+
+.progress{
+    height:100%;
+    width:0%;
+
+    background:
+    linear-gradient(
+      90deg,
+      #66bb6a,
+      #81c784
+    );
+
+    transition:.4s;
+}
+
+/* Mission Box */
+
+#mission{
+    margin-top:15px;
+
+    padding:12px;
+
+    background:#f4fce9;
+
+    border-radius:12px;
+
+    font-weight:600;
+    color:#2e7d32;
+}
+
+/* Badges */
+
+#badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.badge{
+    background:#ffd54f;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:.85rem;
+    font-weight:600;
+}
+
+/* Bray Message */
+
+#brayMessage{
+    font-size:1rem;
+}
+
+/* Stats */
+
+.card p{
+    margin-bottom:6px;
+}
+
+/* Mobile Friendly Tables */
+
+img{
+    max-width:100%;
+}
+
+/* Tablets */
+
+@media (min-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    .container{
+        max-width:800px;
+    }
+
+    .card{
+        padding:20px;
+    }
+}
+
+/* Large Screens */
+
+@media (min-width:1024px){
+
+    .container{
+        max-width:900px;
+    }
+}

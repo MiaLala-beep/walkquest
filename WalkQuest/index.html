@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WalkQuest</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#66bb6a">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WalkQuest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+<header>
+<h1>🐰 WalkQuest</h1>
+<p>Bray's Garden Adventure</p>
+</header>
+
+<div class="card">
+<h2>Bray Says</h2>
+<p id="brayMessage">
+Let's collect some carrots today!
+</p>
+</div>
+
+<div class="card">
+<h2>Character</h2>
+<p>Level: <span id="level">1</span></p>
+<p>XP: <span id="xp">0</span></p>
+
+<div class="progress-bar">
+<div id="xpBar" class="progress"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Garden</h2>
+<p>🥕 Carrots: <span id="carrots">0</span></p>
+<p>🌷 Flowers: <span id="flowers">0</span></p>
+</div>
+
+<div class="card">
+<h2>Today's Energy Check-In</h2>
+
+<label>Sleep</label>
+<select id="sleep">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3" selected>3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<label>Energy</label>
+<select id="energy">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3" selected>3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<label>Stress</label>
+<select id="stress">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3" selected>3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<button onclick="generateMission()">
+Generate Mission
+</button>
+
+<article id="mission">
+Complete your check-in.
+</article>
+
+<button class="secondary" onclick="notFeelingIt()">
+💜 Not Feeling It
+</button>
+
+</div>
+
+<div class="card">
+<h2>Steps</h2>
+
+<input
+id="stepsInput"
+type="number"
+placeholder="Today's steps">
+
+<button onclick="saveSteps()">
+Save Steps
+</button>
+
+<p>Current: <span id="steps">0</span></p>
+</div>
+
+<div class="card">
+<h2>Weight Progress</h2>
+
+<input
+id="weightInput"
+type="number"
+step="0.1"
+placeholder="Weight">
+
+<button onclick="saveWeight()">
+Save Weight
+</button>
+
+<p>
+Current Weight:
+<span id="weight">89</span>kg
+</p>
+
+<div class="progress-bar">
+<div id="weightBar" class="progress"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Stats</h2>
+
+<p>💪 Fitness: <span id="fitness">1</span></p>
+<p>🚶 Consistency: <span id="consistency">1</span></p>
+<p>😊 Mood: <span id="mood">1</span></p>
+<p>⚡ Energy: <span id="energyStat">1</span></p>
+<p>🌱 Wellness: <span id="wellness">1</span></p>
+
+</div>
+
+<div class="card">
+<h2>Weekend Quest</h2>
+
+<button onclick="weekendQuest()">
+Generate Quest
+</button>
+
+<p id="weekendQuestText">
+Ready for adventure...
+</p>
+
+</div>
+
+<div class="card">
+<h2>Achievements</h2>
+<div id="badges"></div>
+</div>
+
+<div class="card">
+<h2>Streak</h2>
+<p>
+🔥 <span id="streak">0</span> Day Streak
+</p>
+</div>
+<div class="card">
+<h2>🐰 Bray's Mood</h2>
+<p id="brayMood">Happy</p>
+</div>
+
+<div class="card">
+<h2>🎯 Daily Step Goal</h2>
+<p>Goal: <span id="stepGoal">7000</span></p>
+
+<div class="progress-bar">
+<div id="stepGoalBar" class="progress"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>🗺 Route Suggestion</h2>
+
+<button onclick="generateRoute()">
+Suggest Route
+</button>
+
+<p id="routeText">
+Ready to explore...
+</p>
+
+</div>
+
+<div class="card">
+<h2>💡 Daily Motivation</h2>
+
+<button onclick="dailyQuote()">
+Get Motivation
+</button>
+
+<p id="quoteText">
+Every step counts.
+</p>
+
+</div>
+
+<div class="card">
+<h2>🌷 Garden Level</h2>
+
+<p>
+Garden Level:
+<span id="gardenLevel">1</span>
+</p>
+</div>
+
+<script src="script.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+</body>
+</html>
